@@ -8,7 +8,7 @@ public class EnemyCol : MonoBehaviour
 
     [SerializeField] protected GameObject EnemyPrefeb;
     [SerializeField] protected GameObject bulletPrefeb;
-    [SerializeField] protected public int shootDelay;
+    [SerializeField] protected int shootDelay;
     private List<List<Enemy>> Enemies = new List<List<Enemy>>();
     private float timeDelay;
 
@@ -24,7 +24,7 @@ public class EnemyCol : MonoBehaviour
     {
         timeDelay += timeDelay.time;
 
-        if (timeDelay = shootDelay)
+        if (timeDelay == shootDelay)
         {
             for (int i = 0; i < Enemies.Count; ++i)
             {
