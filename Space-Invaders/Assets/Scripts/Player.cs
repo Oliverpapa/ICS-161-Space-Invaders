@@ -5,7 +5,11 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float speed = 5;
+    [SerializeField] private int life = 3;
+    public float fireRate = 0.5f;
+    private float nextFire = 0.0f;
     private Rigidbody2D p_rigibody;
+    public GameObject rocketPrefab;
 
     void Start()
     {
@@ -15,8 +19,9 @@ public class Player : MonoBehaviour
     void Update()
     {
         Move();
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > nextFire)
         {
+            nextFire = Time.time + fireRate;
             Fire();
         }
     }
@@ -31,5 +36,6 @@ public class Player : MonoBehaviour
     void Fire()
     {
         Debug.Log("Fire");
+        GameObject newRocket = Instantiate(rocketPrefab, this.transform.position, Quaternion.identity);
     }
 }
