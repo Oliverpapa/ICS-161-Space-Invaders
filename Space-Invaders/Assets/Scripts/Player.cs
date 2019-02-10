@@ -30,7 +30,15 @@ public class Player : MonoBehaviour
     {
         float movementModifier = Input.GetAxis("Horizontal");
         Vector2 currentVelocity = p_rigibody.velocity;
-        p_rigibody.velocity = new Vector2(movementModifier * speed, currentVelocity.y);
+        if (this.transform.position.x <= -8.5f && movementModifier < 0 ||
+            this.transform.position.x >= 8.5f && movementModifier > 0)
+        {
+            p_rigibody.velocity = new Vector2(0, currentVelocity.y);
+        }
+        else
+        {
+            p_rigibody.velocity = new Vector2(movementModifier * speed, currentVelocity.y);
+        }
     }
 
     void Fire()
