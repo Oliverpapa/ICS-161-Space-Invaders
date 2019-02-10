@@ -23,10 +23,15 @@ public class Enemy : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("PlayerBullet"))
+        if (collision.collider.CompareTag("Rocket"))
         {
-            
+            Destroy(this.gameObject);
         }
+    }
+
+    void OnMouseDown()
+    {
+        Destroy(this.gameObject);
     }
 
 }
