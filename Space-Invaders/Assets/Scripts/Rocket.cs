@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Rocket : MonoBehaviour
 {
     [SerializeField] private float speed = 5;
     private float boundXU;
     private Camera cam;
+    public UnityEvent onHitEnemy;
 
     void Start()
     {
@@ -28,6 +30,7 @@ public class Rocket : MonoBehaviour
         if (collider.CompareTag("Enemy"))
         {
             Destroy(this.gameObject);
+            onHitEnemy.Invoke();
         }
     }
 }

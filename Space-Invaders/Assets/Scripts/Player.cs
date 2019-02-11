@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     private float boundXL;
     private float boundXR;
     private Camera cam;
+    public int score;
 
     void Start()
     {
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour
         cam = Camera.main;
         boundXL = cam.ScreenToWorldPoint(Vector3.zero).x;
         boundXR = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, 0f, 0f)).x;
+        score = 0;
     }
 
     void Update()
@@ -61,5 +63,16 @@ public class Player : MonoBehaviour
             life--;
             Debug.Log(life);
         }
+    }
+
+    public void scoreIncrement()
+    {
+        score += 100;
+    }
+
+    public void scoreBonus()
+    {
+        int bonus = Random.Range(100, 200);
+        score += bonus;
     }
 }
