@@ -35,20 +35,23 @@ public class EnemyCol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CleanTheMatrix();
-        Move();
-        timeDelay += Time.deltaTime;
-        //Debug.Log(Enemies[0][0].transform.position.x);
-        if (timeDelay > shootDelay)
+        if (enemies.Count != 0)
         {
-            int i = 0;
-            i = Random.Range(0, enemies.Count);
-            bool coinFlip = Random.value <= 0.5f;
-            if (coinFlip && enemies[i] != null)
+            CleanTheMatrix();
+            Move();
+            timeDelay += Time.deltaTime;
+            //Debug.Log(Enemies[0][0].transform.position.x);
+            if (timeDelay > shootDelay)
             {
-                Shoot(enemies[i]);
+                int i = 0;
+                i = Random.Range(0, enemies.Count);
+                bool coinFlip = Random.value <= 0.5f;
+                if (coinFlip && enemies[i] != null)
+                {
+                    Shoot(enemies[i]);
+                }
+                timeDelay = 0;
             }
-            timeDelay = 0;
         }
     }
 
@@ -97,15 +100,18 @@ public class EnemyCol : MonoBehaviour
 
     void Move()
     {
-        if (enemies[0][0].transform.position.x <= boundXL + 0.5f)
+        if (enemies.Count != 0)
         {
-            this.GetComponent<Rigidbody2D>().velocity = Vector2.right * moveSpeed;
-            this.transform.position += Vector3.down * 0.25f;
-        }
-        if (enemies[enemies.Count - 1][0].transform.position.x >= boundXR - 0.5f)
-        {
-            this.GetComponent<Rigidbody2D>().velocity = Vector2.left * moveSpeed;
-            this.transform.position += Vector3.down * 0.25f;
+            if (enemies[0][0].transform.position.x <= boundXL + 0.5f)
+            {
+                this.GetComponent<Rigidbody2D>().velocity = Vector2.right * moveSpeed;
+                this.transform.position += Vector3.down * 0.25f;
+            }
+            if (enemies[enemies.Count - 1][0].transform.position.x >= boundXR - 0.5f)
+            {
+                this.GetComponent<Rigidbody2D>().velocity = Vector2.left * moveSpeed;
+                this.transform.position += Vector3.down * 0.25f;
+            }
         }
     }
 }

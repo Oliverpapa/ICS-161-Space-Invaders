@@ -51,7 +51,7 @@ public class Player : MonoBehaviour
 
     void Fire()
     {
-        Debug.Log("Fire");
+        //Debug.Log("Fire");
         GameObject newRocket = Instantiate(rocketPrefab, this.transform.position, Quaternion.identity);
     }
 
@@ -61,7 +61,7 @@ public class Player : MonoBehaviour
         {
             Destroy(collision.gameObject);
             life--;
-            Debug.Log(life);
+            //Debug.Log(life);
         }
     }
 
