@@ -17,6 +17,7 @@ public class EnemyBullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (this.transform.position.y < boundXD - 0.5f)
         {
             Destroy(gameObject);
