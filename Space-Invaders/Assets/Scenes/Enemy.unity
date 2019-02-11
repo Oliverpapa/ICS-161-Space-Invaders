@@ -194,34 +194,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &392776239 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8319994665164520931, guid: 6db8f05b5e7e26e438adc3ad6bbace38,
-    type: 3}
-  m_PrefabInstance: {fileID: 8319994665752853456}
-  m_PrefabAsset: {fileID: 0}
---- !u!50 &392776242
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 392776239}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
---- !u!1001 &8319994665752853456
+--- !u!1001 &528648495
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -236,12 +209,12 @@ PrefabInstance:
     - target: {fileID: 8319994665164520933, guid: 6db8f05b5e7e26e438adc3ad6bbace38,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.0205002
       objectReference: {fileID: 0}
     - target: {fileID: 8319994665164520933, guid: 6db8f05b5e7e26e438adc3ad6bbace38,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.8947648
       objectReference: {fileID: 0}
     - target: {fileID: 8319994665164520933, guid: 6db8f05b5e7e26e438adc3ad6bbace38,
         type: 3}
@@ -290,12 +263,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8319994665164520932, guid: 6db8f05b5e7e26e438adc3ad6bbace38,
         type: 3}
-      propertyPath: shootDelay
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8319994665164520932, guid: 6db8f05b5e7e26e438adc3ad6bbace38,
-        type: 3}
       propertyPath: moveSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5051549844253103732, guid: 6db8f05b5e7e26e438adc3ad6bbace38,
+        type: 3}
+      propertyPath: m_BodyType
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
