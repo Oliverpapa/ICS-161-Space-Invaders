@@ -50,7 +50,7 @@ MonoBehaviour:
     type: 3}
   shootDelay: 1
   bulletSpeed: 5
-  moveSpeed: 0
+  moveSpeed: 3
 --- !u!50 &5825989221156537129
 Rigidbody2D:
   serializedVersion: 4
@@ -71,4 +71,4 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
