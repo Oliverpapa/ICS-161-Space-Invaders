@@ -10,30 +10,43 @@ public class EnemyCol : MonoBehaviour
     [SerializeField] protected GameObject bulletPrefab;
     [SerializeField] protected float shootDelay;
     [SerializeField] protected float bulletSpeed;
-    private List<List<GameObject>> Enemies = new List<List<GameObject>>();
+    [SerializeField] protected float moveSpeed;
+    private List<List<GameObject>> enemies = new List<List<GameObject>>();
     private float timeDelay;
+    private Camera cam;
+    private float boundXL;
+    private float boundXR;
+    private float levelNum = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         timeDelay = 0f;
         BuildEnemies();
+        cam = Camera.main;
+        boundXL = cam.ScreenToWorldPoint(Vector3.zero).x;
+        boundXR = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth,0f,0f)).x;
+        //Debug.Log(boundXR);
+        this.transform.position = new Vector3(boundXL + 0.6f, 0 - levelNum, 0);
+        this.GetComponent<Rigidbody2D>().velocity = Vector2.right * moveSpeed;
+
     }
 
     // Update is called once per frame
     void Update()
     {
         CleanTheMatrix();
+        Move();
         timeDelay += Time.deltaTime;
-
+        //Debug.Log(Enemies[0][0].transform.position.x);
         if (timeDelay > shootDelay)
         {
             int i = 0;
-            i = Random.Range(0, Enemies.Count);
+            i = Random.Range(0, enemies.Count);
             bool coinFlip = Random.value <= 0.5f;
-            if (coinFlip && Enemies[i].Count != 0)
+            if (coinFlip && enemies[i] != null)
             {
-                Shoot(Enemies[i]);
+                Shoot(enemies[i]);
             }
             timeDelay = 0;
         }
@@ -41,14 +54,6 @@ public class EnemyCol : MonoBehaviour
 
     void Shoot(List<GameObject> gameObjects)
     {
-        for (int i = 0; i < gameObjects.Count; i++)
-        {
-            if (gameObjects[i] == null)
-            {
-                gameObjects.RemoveAt(i);
-                i--;
-            }
-        }
         GameObject newBullet = Instantiate(bulletPrefab, gameObjects[0].transform.position, Quaternion.identity);
         newBullet.GetComponent<Rigidbody2D>().velocity = Vector2.down * bulletSpeed;
         Physics2D.IgnoreCollision(gameObjects[0].GetComponent<Collider2D>(), newBullet.GetComponent<Collider2D>());
@@ -58,29 +63,46 @@ public class EnemyCol : MonoBehaviour
     {
         for (int x = 0; x < 11; x++)
         {
-            Enemies.Add(new List<GameObject>());
+            enemies.Add(new List<GameObject>());
             for (int y = 0; y < 5; y++)
             {
                 Vector3 buildPosition = new Vector3(x, y, 0);
                 GameObject newEnemy = Instantiate(EnemyPrefab, this.transform);
                 newEnemy.transform.localPosition = buildPosition;
-                Enemies[x].Add(newEnemy);
+                enemies[x].Add(newEnemy);
             }
         }
     }
 
     void CleanTheMatrix()
     {
-        //Debug.Log(Enemies.Count);
-        if (Enemies[0] == null)
+        for(int x = 0; x < enemies.Count; x++)
         {
-            Enemies.RemoveAt(0);
+            for (int y = 0; y < enemies[x].Count; y++)
+            {
+                if (enemies[x][y] == null)
+                {
+                    enemies[x].RemoveAt(y);
+                    y--;
+                }
+            }
+            if (enemies[x].Count == 0)
+            {
+                enemies.RemoveAt(x);
+            }
         }
-        if (Enemies.Count != 0 && Enemies[Enemies.Count - 1] == null)
-        {
-            Enemies.RemoveAt(Enemies.Count - 1);
-        }
+        
         //Debug.Log(Enemies.Count);
     }
 
+    void Move()
+    {
+        if (enemies[0][0].transform.position.x <= boundXL + 0.5f
+            || enemies[enemies.Count - 1][0].transform.position.x >= boundXR - 0.5f)
+        {
+            moveSpeed = -moveSpeed;
+            this.GetComponent<Rigidbody2D>().velocity = Vector2.right * moveSpeed;
+            this.transform.position += Vector3.down * 0.25f;
+        }
+    }
 }

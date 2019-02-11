@@ -13,4 +13,12 @@ public class Rocket : MonoBehaviour
         }
         this.transform.Translate(new Vector2(0, speed * Time.deltaTime));
     }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.CompareTag("Enemy"))
+        {
+            Destroy(this.gameObject);
+        }
+    }
 }

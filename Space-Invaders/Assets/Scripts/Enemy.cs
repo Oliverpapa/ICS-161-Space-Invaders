@@ -21,17 +21,15 @@ public class Enemy : MonoBehaviour
         
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collision.collider.CompareTag("Rocket"))
+        //Debug.Log(collider.name);
+        if (collider.CompareTag("Rocket"))
         {
             Destroy(this.gameObject);
         }
     }
 
-    void OnMouseDown()
-    {
-        Destroy(this.gameObject);
-    }
+
 
 }
