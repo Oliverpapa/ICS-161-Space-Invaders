@@ -97,11 +97,14 @@ public class EnemyCol : MonoBehaviour
 
     void Move()
     {
-        if (enemies[0][0].transform.position.x <= boundXL + 0.5f
-            || enemies[enemies.Count - 1][0].transform.position.x >= boundXR - 0.5f)
+        if (enemies[0][0].transform.position.x <= boundXL + 0.5f)
         {
-            moveSpeed = -moveSpeed;
             this.GetComponent<Rigidbody2D>().velocity = Vector2.right * moveSpeed;
+            this.transform.position += Vector3.down * 0.25f;
+        }
+        if (enemies[enemies.Count - 1][0].transform.position.x >= boundXR - 0.5f)
+        {
+            this.GetComponent<Rigidbody2D>().velocity = Vector2.left * moveSpeed;
             this.transform.position += Vector3.down * 0.25f;
         }
     }
