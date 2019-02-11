@@ -10,10 +10,16 @@ public class Player : MonoBehaviour
     private float nextFire = 0.0f;
     private Rigidbody2D p_rigibody;
     public GameObject rocketPrefab;
+    private float boundXL;
+    private float boundXR;
+    private Camera cam;
 
     void Start()
     {
         p_rigibody = this.GetComponent<Rigidbody2D>();
+        cam = Camera.main;
+        boundXL = cam.ScreenToWorldPoint(Vector3.zero).x;
+        boundXR = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, 0f, 0f)).x;
     }
 
     void Update()
@@ -30,8 +36,8 @@ public class Player : MonoBehaviour
     {
         float movementModifier = Input.GetAxis("Horizontal");
         Vector2 currentVelocity = p_rigibody.velocity;
-        if (this.transform.position.x <= -8.5f && movementModifier < 0 ||
-            this.transform.position.x >= 8.5f && movementModifier > 0)
+        if (this.transform.position.x <= boundXL + 0.5f && movementModifier < 0 ||
+            this.transform.position.x >= boundXR - 0.5f && movementModifier > 0)
         {
             p_rigibody.velocity = new Vector2(0, currentVelocity.y);
         }
