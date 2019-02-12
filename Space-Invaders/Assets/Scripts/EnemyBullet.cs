@@ -23,4 +23,12 @@ public class EnemyBullet : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.CompareTag("Shield"))
+        {
+            Destroy(this.gameObject);
+        }
+    }
 }
