@@ -21,7 +21,7 @@ public class ShieldManager : MonoBehaviour
         {
             buildShields(new Vector3(boundXL + (boundXR - boundXL) / 5 * i, 0, 0));
         }
-        this.transform.position = new Vector3(boundXL + 11.5f, boundXD + 2.0f, 0);
+        this.transform.position = new Vector3(boundXL + (boundXR - boundXL)*2/3, boundXD + 2.0f, 0);
     }
 
     // Update is called once per frame
