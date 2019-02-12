@@ -6,10 +6,22 @@ public class ShieldManager : MonoBehaviour
 {
     [SerializeField] protected GameObject shieldPrefab;
     private List<List<GameObject>> shields = new List<List<GameObject>>();
-    
+    private Camera cam;
+    private float boundXL;
+    private float boundXR;
+    private float boundXD;
+
     void Start()
     {
-        buildShields();
+        cam = Camera.main;
+        boundXL = cam.ScreenToWorldPoint(Vector3.zero).x;
+        boundXD = cam.ScreenToWorldPoint(Vector3.zero).y;
+        boundXR = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, 0f, 0f)).x;
+        for (int i = 0; i < 4; i++)
+        {
+            buildShields(new Vector3(boundXL + (boundXR - boundXL) / 5 * i, 0, 0));
+        }
+        this.transform.position = new Vector3(boundXL + 11.5f, boundXD + 2.0f, 0);
     }
 
     // Update is called once per frame
@@ -18,7 +30,7 @@ public class ShieldManager : MonoBehaviour
         
     }
 
-    void buildShields()
+    void buildShields(Vector3 vector3)
     {
         for (int x = 0; x < 4; x++)
         {
@@ -27,7 +39,8 @@ public class ShieldManager : MonoBehaviour
             {
                 if (!(x == 1 && y == 0 || x == 2 && y == 0))
                 {
-                    Vector3 buildPosition = new Vector3(0.65f * x, 0.65f * y, 0);
+                    Vector3 buildPosition = new Vector3(0.55f * x, 0.55f * y, 0);
+                    buildPosition += vector3;
                     GameObject newShield = Instantiate(shieldPrefab, this.transform);
                     newShield.transform.localPosition = buildPosition;
                     shields[x].Add(newShield);
