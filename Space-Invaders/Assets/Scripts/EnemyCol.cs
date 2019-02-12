@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemyCol : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class EnemyCol : MonoBehaviour
     [SerializeField] protected float bulletSpeed;
     [SerializeField] protected float moveSpeed;
     [SerializeField] protected float UFOdistanceFromTop = 1.2f;
+
+    public UnityEvent win;
+    public UnityEvent loss;
+
     private List<List<GameObject>> enemies = new List<List<GameObject>>();
     private float timeDelay1;
     private float timeDelay2;
@@ -46,9 +51,16 @@ public class EnemyCol : MonoBehaviour
         {
             CleanTheMatrix();
             Move();
+            if (enemies[0][0].transform.position.y < -2)
+            {
+                if (loss != null)
+                {
+                    loss.Invoke();
+                }
+                return;
+            }
             timeDelay1 += Time.deltaTime;
             timeDelay2 += Time.deltaTime;
-            //Debug.Log(Enemies[0][0].transform.position.x);
             if (timeDelay1 > shootDelay)
             {
                 int i = 0;
@@ -64,6 +76,13 @@ public class EnemyCol : MonoBehaviour
             {
                 spawnUFO();
                 timeDelay2 = 0;
+            }
+        }
+        else
+        {
+            if (win != null)
+            {
+                win.Invoke();
             }
         }
     }
