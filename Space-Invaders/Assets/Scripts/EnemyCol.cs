@@ -1,33 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class EnemyCol : MonoBehaviour
 {
 
     [SerializeField] protected GameObject EnemyPrefab;
     [SerializeField] protected GameObject bulletPrefab;
+    [SerializeField] protected GameObject UFOPrefab;
     [SerializeField] protected float shootDelay;
+    [SerializeField] protected float spawnDelay;
     [SerializeField] protected float bulletSpeed;
     [SerializeField] protected float moveSpeed;
+    [SerializeField] protected float UFOdistanceFromTop = 1.2f;
     private List<List<GameObject>> enemies = new List<List<GameObject>>();
-    private float timeDelay;
+    private float timeDelay1;
+    private float timeDelay2;
     private Camera cam;
     private float boundXL;
     private float boundXR;
+    private float boundYU;
     private float levelNum = 0;
+    private int countDown = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        timeDelay = 0f;
+        timeDelay1 = 0f;
+        timeDelay2 = 0f;
         BuildEnemies();
         cam = Camera.main;
         boundXL = cam.ScreenToWorldPoint(Vector3.zero).x;
         boundXR = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth,0f,0f)).x;
+        boundYU = cam.ScreenToWorldPoint(new Vector3(0f,cam.pixelHeight,0f)).y;
         //Debug.Log(boundXR);
-        this.transform.position = new Vector3(boundXL + 0.6f, 0 - levelNum, 0);
+        this.transform.position = new Vector3(boundXL + 0.6f, -0.5f - levelNum, 0);
         this.GetComponent<Rigidbody2D>().velocity = Vector2.right * moveSpeed;
 
     }
@@ -39,9 +46,10 @@ public class EnemyCol : MonoBehaviour
         {
             CleanTheMatrix();
             Move();
-            timeDelay += Time.deltaTime;
+            timeDelay1 += Time.deltaTime;
+            timeDelay2 += Time.deltaTime;
             //Debug.Log(Enemies[0][0].transform.position.x);
-            if (timeDelay > shootDelay)
+            if (timeDelay1 > shootDelay)
             {
                 int i = 0;
                 i = Random.Range(0, enemies.Count);
@@ -50,7 +58,12 @@ public class EnemyCol : MonoBehaviour
                 {
                     Shoot(enemies[i]);
                 }
-                timeDelay = 0;
+                timeDelay1 = 0;
+            }
+            if (timeDelay2 > spawnDelay)
+            {
+                spawnUFO();
+                timeDelay2 = 0;
             }
         }
     }
@@ -106,11 +119,30 @@ public class EnemyCol : MonoBehaviour
             {
                 this.GetComponent<Rigidbody2D>().velocity = Vector2.right * moveSpeed;
                 this.transform.position += Vector3.down * 0.25f;
+                countDown++;
             }
             if (enemies[enemies.Count - 1][0].transform.position.x >= boundXR - 0.5f)
             {
                 this.GetComponent<Rigidbody2D>().velocity = Vector2.left * moveSpeed;
                 this.transform.position += Vector3.down * 0.25f;
+                countDown++;
+            }
+        }
+    }
+
+    void spawnUFO()
+    {
+        bool coin = Random.value <= 0.5f;
+        if (coin && countDown >= 2)
+        {
+            bool leftRight = Random.value <= 0.5f;
+            if (leftRight)
+            {
+                GameObject newUFO = Instantiate(UFOPrefab, new Vector3(boundXL + 1.55f, boundYU - UFOdistanceFromTop, 0), Quaternion.identity);
+            }
+            else
+            {
+                GameObject newUFO = Instantiate(UFOPrefab, new Vector3(boundXR - 1.55f, boundYU - UFOdistanceFromTop, 0), Quaternion.identity);
             }
         }
     }

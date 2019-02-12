@@ -52,7 +52,6 @@ public class Enemy : MonoBehaviour
                     break;
             }
             Destroy(this.gameObject);
-            Debug.Log(score);
             if (getKill != null)
             {
                 getKill.Invoke(score);
