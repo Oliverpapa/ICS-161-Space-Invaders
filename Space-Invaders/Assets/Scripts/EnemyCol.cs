@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using System.Linq;
 
 public class EnemyCol : MonoBehaviour
 {
@@ -51,13 +52,12 @@ public class EnemyCol : MonoBehaviour
         {
             CleanTheMatrix();
             Move();
-            if (enemies[0][0].transform.position.y < -2)
+            if (getLowestY() < -2)
             {
                 if (loss != null)
                 {
                     loss.Invoke();
                 }
-                return;
             }
             timeDelay1 += Time.deltaTime;
             timeDelay2 += Time.deltaTime;
@@ -164,5 +164,15 @@ public class EnemyCol : MonoBehaviour
                 GameObject newUFO = Instantiate(UFOPrefab, new Vector3(boundXR - 1.55f, boundYU - UFOdistanceFromTop, 0), Quaternion.identity);
             }
         }
+    }
+
+    float getLowestY()
+    {
+        List<float> Ys = new List<float>();
+        for (int x = 0; x < enemies.Count; x++)
+        {
+            Ys.Add(enemies[x][0].transform.position.y);
+        }
+        return Ys.Min();
     }
 }
