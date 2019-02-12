@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public GameObject rocketPrefab;
     private float boundXL;
     private float boundXR;
+    private float boundXD;
     private Camera cam;
     public int score;
     private int rocketNum;
@@ -21,8 +22,10 @@ public class Player : MonoBehaviour
         p_rigibody = this.GetComponent<Rigidbody2D>();
         cam = Camera.main;
         boundXL = cam.ScreenToWorldPoint(Vector3.zero).x;
+        boundXD = cam.ScreenToWorldPoint(Vector3.zero).y;
         boundXR = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, 0f, 0f)).x;
         score = 0;
+        this.transform.position = new Vector3((boundXR + boundXL) / 2, boundXD + 0.5f, 0);
     }
 
     void Update()
@@ -67,6 +70,7 @@ public class Player : MonoBehaviour
         {
             Destroy(collision.gameObject);
             life--;
+            this.transform.position = new Vector3((boundXR + boundXL) / 2, boundXD + 0.5f, 0);
             //Debug.Log(life);
         }
     }
