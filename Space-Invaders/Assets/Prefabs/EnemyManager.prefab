@@ -48,11 +48,13 @@ MonoBehaviour:
     type: 3}
   bulletPrefab: {fileID: 1724445778559769649, guid: fa18df7ef3a66f047ae15709f3f81dd6,
     type: 3}
-  UFOPrefab: {fileID: 0}
+  UFOPrefab: {fileID: 131168107721367714, guid: 9648f0538ef5be5439d3973405dd9f25,
+    type: 3}
   shootDelay: 1
   spawnDelay: 7
   bulletSpeed: 5
-  moveSpeed: 5
+  moveSpeed: 0.25
+  UFOdistanceFromTop: 1.2
 --- !u!50 &5051549844253103732
 Rigidbody2D:
   serializedVersion: 4
