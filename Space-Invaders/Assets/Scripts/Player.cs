@@ -17,8 +17,11 @@ public class Player : MonoBehaviour
     public int score;
     private int rocketNum;
 
-    void Start()
-    {
+    public static Player instance;
+
+    void Start() {
+        instance = this;
+        
         p_rigibody = this.GetComponent<Rigidbody2D>();
         cam = Camera.main;
         boundXL = cam.ScreenToWorldPoint(Vector3.zero).x;
