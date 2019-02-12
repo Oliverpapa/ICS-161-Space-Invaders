@@ -9,11 +9,11 @@ public class Enemy : MonoBehaviour
 {
     public static Enemy instance;
     private Collider2D m_collider;
-    public UnityEvent<int> getKill;
+//    public UnityEvent<int> getKill;
 
     void Awake()
     {
-        instance = this;
+//        instance = this;
     }
     void Start()
     {
@@ -52,10 +52,11 @@ public class Enemy : MonoBehaviour
                     break;
             }
             Destroy(this.gameObject);
-            if (getKill != null)
-            {
-                getKill.Invoke(score);
-            }
+            LevelController.instance.UpdateScore(score);
+//            if (getKill != null)
+//            {
+//                getKill.Invoke(score);
+//            }
         }
     }
 }

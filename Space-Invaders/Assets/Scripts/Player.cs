@@ -74,6 +74,7 @@ public class Player : MonoBehaviour
             Destroy(collision.gameObject);
             life--;
             this.transform.position = new Vector3((boundXR + boundXL) / 2, boundXD + 0.5f, 0);
+            LevelController.instance.UpdateLives();
             //Debug.Log(life);
         }
     }

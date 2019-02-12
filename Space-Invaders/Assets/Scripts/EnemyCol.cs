@@ -26,12 +26,16 @@ public class EnemyCol : MonoBehaviour
     private float boundXL;
     private float boundXR;
     private float boundYU;
-    private float levelNum = 0;
+    private float boundYD;
+    public float levelNum = 0;
     private int countDown = 0;
 
+    public static EnemyCol instance;
+
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
+        instance = this;
+        levelNum = LevelController.levelNum - 1;
         timeDelay1 = 0f;
         timeDelay2 = 0f;
         BuildEnemies();
@@ -39,8 +43,9 @@ public class EnemyCol : MonoBehaviour
         boundXL = cam.ScreenToWorldPoint(Vector3.zero).x;
         boundXR = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth,0f,0f)).x;
         boundYU = cam.ScreenToWorldPoint(new Vector3(0f,cam.pixelHeight,0f)).y;
-        //Debug.Log(boundXR);
-        this.transform.position = new Vector3(boundXL + 0.6f, -0.5f - levelNum, 0);
+        boundYD = cam.ScreenToWorldPoint(new Vector3(0f,0f,0f)).y;
+        Debug.Log("level: " + levelNum);
+        this.transform.position = new Vector3(boundXL + 0.6f, 0.5f - levelNum * 2f, 0);
         this.GetComponent<Rigidbody2D>().velocity = Vector2.right * moveSpeed;
 
     }
@@ -51,11 +56,13 @@ public class EnemyCol : MonoBehaviour
         if (enemies.Count != 0)
         {
             CleanTheMatrix();
-            Move();
-            if (getLowestY() < boundYU + 3.5f)
+            
+            Debug.Log(getLowestY());
+            if (enemies.Count != 0 && getLowestY() < boundYD + 3.5f && getLowestY() > -9999)
             {
                 if (loss != null)
                 {
+                    Debug.Log("loss");
                     loss.Invoke();
                 }
             }
@@ -77,6 +84,7 @@ public class EnemyCol : MonoBehaviour
                 spawnUFO();
                 timeDelay2 = 0;
             }
+            Move();
         }
         else
         {
@@ -137,13 +145,13 @@ public class EnemyCol : MonoBehaviour
             if (enemies[0][0].transform.position.x <= boundXL + 0.5f)
             {
                 this.GetComponent<Rigidbody2D>().velocity = Vector2.right * moveSpeed;
-                this.transform.position += Vector3.down * 0.25f;
+                this.transform.position += Vector3.down * 0.5f;
                 countDown++;
             }
             if (enemies[enemies.Count - 1][0].transform.position.x >= boundXR - 0.5f)
             {
                 this.GetComponent<Rigidbody2D>().velocity = Vector2.left * moveSpeed;
-                this.transform.position += Vector3.down * 0.25f;
+                this.transform.position += Vector3.down * 0.5f;
                 countDown++;
             }
         }
@@ -171,7 +179,14 @@ public class EnemyCol : MonoBehaviour
         List<float> Ys = new List<float>();
         for (int x = 0; x < enemies.Count; x++)
         {
-            Ys.Add(enemies[x][0].transform.position.y);
+            if (enemies[x] != null) {
+                Ys.Add(enemies[x][0].transform.position.y);
+            }
+            
+        }
+
+        if (Ys.Count == 0) {
+            return -10000;
         }
         return Ys.Min();
     }

@@ -51,10 +51,11 @@ public class UFO : MonoBehaviour
             int i = Random.Range(0, 5);
             Debug.Log(scores[i]);
             Destroy(this.gameObject);
-            if (bonus != null)
-            {
-                bonus.Invoke(scores[i]);
-            }
+//            if (bonus != null)
+//            {
+//                bonus.Invoke(scores[i]);
+//            }
+            LevelController.instance.UpdateScore(scores[i]);
         }
     }
 

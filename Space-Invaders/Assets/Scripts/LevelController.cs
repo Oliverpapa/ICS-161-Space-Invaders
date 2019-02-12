@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelController : MonoBehaviour {
     public Animator UIAnimator;
-    public int score = 0;
+    public static int score = 0;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI levelText;
     public static int levelNum = 1;
@@ -18,9 +18,17 @@ public class LevelController : MonoBehaviour {
 
     private bool paused = false;
 
+    public static LevelController instance;
+
+    private void Awake() {
+        instance = this;
+    }
+
     private void Start() {
 //        Enemy.instance.getKill.AddListener(UpdateScore);
         Debug.Log(levelNum);
+//        EnemyCol.instance.levelNum = levelNum;
+        Time.timeScale = 1f;
         levelText.SetText(String.Format("Level {0}", levelNum));
     }
 
@@ -45,9 +53,20 @@ public class LevelController : MonoBehaviour {
         Time.timeScale = 1f;
         UIAnimator.SetTrigger("resume");
     }
+    
+    public void Win() {
+        Time.timeScale = 0f;
+        UIAnimator.SetTrigger("win");
+    }
+
+    public void End() {
+        Time.timeScale = 0f;
+        UIAnimator.SetTrigger("end");
+    }
 
     public void Restart() {
         levelNum = 1;
+        score = 0;
         SceneManager.LoadSceneAsync("Level");
     }
 
@@ -58,15 +77,34 @@ public class LevelController : MonoBehaviour {
     }
 
     public void Quit() {
-        EditorApplication.isPlaying = false;
+//        EditorApplication.isPlaying = false;
         Application.Quit();
     }
 
-    private void UpdateScore(int newScore) {
-        scoreText.SetText(String.Format("Score: {0}", newScore));
+    public void UpdateScore(int newScore) {
+        score += newScore;
+        scoreText.SetText(String.Format("Score: {0}", score));
     }
 
-    private void UpdateLives() {
-        
+    public void UpdateLives() {
+        int lives = Player.instance.life;
+        switch (lives) {
+            case 2: 
+                live3.SetActive(false);
+                break;
+            case 1:
+                live3.SetActive(false);
+                live2.SetActive(false);
+                break;
+            case 0:
+                live3.SetActive(false);
+                live2.SetActive(false);
+                live1.SetActive(false);
+                End();
+                break;
+            default:
+                Debug.LogError("Live num is wrong.");
+                break;
+        }
     }
 }
