@@ -6,14 +6,15 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float speed = 5;
     [SerializeField] private int life = 3;
-    public float fireRate = 0.5f;
-    private float nextFire = 0.0f;
+    //public float fireRate = 0.5f;
+    //private float nextFire = 0.0f;
     private Rigidbody2D p_rigibody;
     public GameObject rocketPrefab;
     private float boundXL;
     private float boundXR;
     private Camera cam;
     public int score;
+    private int rocketNum;
 
     void Start()
     {
@@ -27,11 +28,16 @@ public class Player : MonoBehaviour
     void Update()
     {
         Move();
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > nextFire)
+        rocketNum = GameObject.FindGameObjectsWithTag("Rocket").Length;
+        if (Input.GetKeyDown(KeyCode.Space) && rocketNum == 0)
         {
-            nextFire = Time.time + fireRate;
             Fire();
         }
+        //if (Input.GetKeyDown(KeyCode.Space) && Time.time > nextFire)
+        //{
+        //    nextFire = Time.time + fireRate;
+        //    Fire();
+        //}
     }
 
     void Move()
