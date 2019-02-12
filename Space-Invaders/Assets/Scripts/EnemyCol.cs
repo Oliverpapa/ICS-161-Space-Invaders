@@ -52,7 +52,7 @@ public class EnemyCol : MonoBehaviour
         {
             CleanTheMatrix();
             Move();
-            if (getLowestY() < -2)
+            if (getLowestY() < boundYU + 3.5f)
             {
                 if (loss != null)
                 {
