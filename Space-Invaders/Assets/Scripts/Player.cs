@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float speed = 5;
-    [SerializeField] private int life = 3;
+    [SerializeField] public int life = 3;
     //public float fireRate = 0.5f;
     //private float nextFire = 0.0f;
     private Rigidbody2D p_rigibody;
